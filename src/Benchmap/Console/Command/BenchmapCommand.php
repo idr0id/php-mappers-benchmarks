@@ -32,7 +32,7 @@ class BenchmapCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		$output->writeln('Runtime: PHP' . phpversion());
+		$output->writeln('Runtime: PHP ' . phpversion());
 		$output->writeln('Host: ' . php_uname());
 		$output->writeln('Collection size: ' . $input->getOption('size'));
 		$output->writeln('');

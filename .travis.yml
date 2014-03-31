@@ -1,0 +1,19 @@
+language: php
+
+php:
+    - 5.3
+    - 5.4
+    - 5.5
+
+before_script:
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+    - composer self-update
+    - composer update --dev -o -n
+
+script:
+    - php bin/console benchmap -s 1
+    - php bin/console benchmap -s 10
+    - php bin/console benchmap -s 100
+    - php bin/console benchmap -s 1000
+    - php bin/console benchmap -s 10000
+    - php bin/console benchmap -s 100000

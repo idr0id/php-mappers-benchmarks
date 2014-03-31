@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+if (PHP_SAPI !== 'cli') {
+	echo 'Mappers benchmark should be run on the CLI environment.' . PHP_EOL;
+}
+
+include __DIR__ . '/../vendor/autoload.php';
+
+$app = new \Symfony\Component\Console\Application('php-mappers-benchmarks', 'dev-master');
+$app->add(new \Benchmap\Console\Command\BenchmapCommand());
+$app->run();

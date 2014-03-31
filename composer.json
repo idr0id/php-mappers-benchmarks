@@ -1,0 +1,44 @@
+{
+	"name": "idr0id/php-mappers-benchmarks",
+	"type": "library",
+	"description": "PHP mappers benchmark.",
+	"keywords": ["mapper", "benchmark"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Vladimir Komissarov",
+			"homepage": "http://dr0id.ru"
+		}
+	],
+	"repositories": [
+		{
+			"type": "package",
+			"package": {
+				"name": "nylle/php-automapper",
+				"version": "dev-master",
+				"source": {
+					"url": "git@github.com:Nylle/PHP-AutoMapper.git",
+					"type": "git",
+					"reference": "master"
+				},
+				"autoload": {
+					"psr-0": {"Adminomatic": ""}
+				}
+			}
+		}
+	],
+	"require": {
+		"symfony/console": "~2.3",
+		"symfony/finder": "~2.3",
+		"symfony/stopwatch": "~2.3",
+		"idr0id/papper": "dev-master",
+		"bcc/auto-mapper-bundle": "dev-master",
+		"nylle/php-automapper": "dev-master"
+	},
+	"autoload": {
+		"psr-0": {
+			"": "src"
+		}
+	},
+	"bin": ["bin/console"]
+}

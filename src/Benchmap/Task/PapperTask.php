@@ -19,6 +19,6 @@ class PapperTask implements TaskInterface
 
 	public function run(array $sources)
 	{
-		return Papper::map($sources, 'Benchmap\Domain\UserDTO', 'Benchmap\Domain\User');
+		return Papper::map($sources, 'Benchmap\Domain\User')->toType('Benchmap\Domain\UserDTO');
 	}
 }

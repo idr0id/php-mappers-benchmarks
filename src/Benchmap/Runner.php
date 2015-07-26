@@ -35,9 +35,6 @@ class Runner
 		$results = array();
 		foreach ($this->tasks as $task) {
 
-            if (!$task->isValid()) {
-                continue;
-            }
 			$stopwatch = new Stopwatch();
 			$stopwatch->start('mapping');
 			$task->prepare();

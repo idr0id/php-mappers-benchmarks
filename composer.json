@@ -33,7 +33,8 @@
 		"symfony/stopwatch": "~2.3",
 		"idr0id/papper": "dev-master",
 		"bcc/auto-mapper-bundle": "dev-master",
-		"nylle/php-automapper": "dev-master"
+		"nylle/php-automapper": "dev-master",
+        "trismegiste/alkahest": "dev-master"
 	},
 	"autoload": {
 		"psr-0": {

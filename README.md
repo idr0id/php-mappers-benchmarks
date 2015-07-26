@@ -1,7 +1,7 @@
 php-mappers-benchmarks
 ======================
 
-[![Build Status](https://travis-ci.org/idr0id/php-mappers-benchmarks.png)](https://travis-ci.org/idr0id/php-mappers-benchmarks)
+[![Build Status](https://travis-ci.org/Trismegiste/php-mappers-benchmarks.png)](https://travis-ci.org/Trismegiste/php-mappers-benchmarks)
 
 Tested with unstable dev-master versions.
 

@@ -8,7 +8,7 @@ php:
 before_script:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
     - composer self-update
-    - composer update --dev -o -n
+    - composer update --dev -o -n --ignore-platform-reqs
 
 script:
     - php bin/console benchmap -s 1

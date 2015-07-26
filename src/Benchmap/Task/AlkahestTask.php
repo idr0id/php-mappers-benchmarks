@@ -17,13 +17,6 @@ class AlkahestTask implements TaskInterface
     /** @var \Trismegiste\Alkahest\Transform\TransformerInterface */
     protected $mapper;
 
-    function __construct()
-    {
-        $director = new MappingDirector();
-        $mappingChain = $director->create(new Neutral());
-        $this->mapper = new Transformer($mappingChain);
-    }
-
     public function getName()
     {
         return 'trismegiste/alkahest';
@@ -31,7 +24,9 @@ class AlkahestTask implements TaskInterface
 
     public function prepare()
     {
-
+        $director = new MappingDirector();
+        $mappingChain = $director->create(new Neutral());
+        $this->mapper = new Transformer($mappingChain);
     }
 
     public function run(array $sources)
@@ -40,6 +35,11 @@ class AlkahestTask implements TaskInterface
         return array_map(function (User $source) use ($mapper) {
             return $mapper->desegregate($source);
         }, $sources);
+    }
+
+    public function isValid()
+    {
+        return version_compare(PHP_VERSION, '5.4.0') === 1;
     }
 
 }

@@ -21,4 +21,9 @@ class PapperTask implements TaskInterface
 	{
 		return Papper::map($sources, 'Benchmap\Domain\User')->toType('Benchmap\Domain\UserDTO');
 	}
+
+    public function isValid()
+    {
+        return true;
+    }
 }

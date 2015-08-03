@@ -27,4 +27,10 @@ class NativePHPTask implements TaskInterface
 			return $destination;
 		}, $sources);
 	}
+
+    public function isValid()
+    {
+        return true;
+    }
+
 }

@@ -10,23 +10,6 @@
 			"homepage": "http://dr0id.ru"
 		}
 	],
-	"repositories": [
-		{
-			"type": "package",
-			"package": {
-				"name": "nylle/php-automapper",
-				"version": "dev-master",
-				"source": {
-					"url": "git@github.com:Nylle/PHP-AutoMapper.git",
-					"type": "git",
-					"reference": "master"
-				},
-				"autoload": {
-					"psr-0": {"Adminomatic": ""}
-				}
-			}
-		}
-	],
 	"require": {
 		"symfony/console": "~2.3",
 		"symfony/finder": "~2.3",
@@ -35,7 +18,7 @@
 		"bcc/auto-mapper-bundle": "dev-master",
 		"nylle/php-automapper": "dev-master",
         "trismegiste/alkahest": "dev-master",
-		"mark-gerarts/auto-mapper-plus": "@dev"
+        "mark-gerarts/auto-mapper-plus": "@dev"
 	},
 	"autoload": {
 		"psr-0": {

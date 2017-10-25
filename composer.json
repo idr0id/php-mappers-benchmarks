@@ -34,7 +34,8 @@
 		"idr0id/papper": "dev-master",
 		"bcc/auto-mapper-bundle": "dev-master",
 		"nylle/php-automapper": "dev-master",
-        "trismegiste/alkahest": "dev-master"
+        "trismegiste/alkahest": "dev-master",
+		"mark-gerarts/auto-mapper-plus": "@dev"
 	},
 	"autoload": {
 		"psr-0": {

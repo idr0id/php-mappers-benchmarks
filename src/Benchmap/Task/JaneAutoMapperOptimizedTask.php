@@ -5,8 +5,10 @@ namespace Benchmap\Task;
 use Benchmap\Domain\User;
 use Benchmap\Domain\UserDTO;
 use Benchmap\TaskInterface;
+use Jane\AutoMapper\AutoMapper;
 use Jane\AutoMapper\Compiler\Accessor;
 use Jane\AutoMapper\Compiler\Compiler;
+use Jane\AutoMapper\Compiler\SourceTargetPropertiesMappingExtractor;
 use Jane\AutoMapper\Compiler\Transformer\TransformerFactory;
 use Jane\AutoMapper\MapperConfiguration;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
@@ -15,22 +17,20 @@ use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 
 class JaneAutoMapperOptimizedTask implements TaskInterface
 {
-    private $compiler;
-
     private $mapper;
 
     public function __construct()
     {
-        $this->compiler = new Compiler(new PropertyInfoExtractor(
+        $mappingExtractor = new SourceTargetPropertiesMappingExtractor(new PropertyInfoExtractor(
             [new ReflectionExtractor()],
             [new ReflectionExtractor(), new PhpDocExtractor()],
             [new ReflectionExtractor()],
             [new ReflectionExtractor()]
-        ), new Accessor(), new TransformerFactory());
-
+        ), new Accessor\ReflectionAccessorExtractor(), new TransformerFactory());
+        $autoMapper = new AutoMapper();
         // We assume that we get the mapper directly and that it has been previously writed to disk (so compile time is not included here)
-        $configurationUser = new MapperConfiguration($this->compiler, User::class, UserDTO::class);
-        $this->mapper = $configurationUser->getMapper();
+        $autoMapper->register(new MapperConfiguration($mappingExtractor, User::class, UserDTO::class));
+        $this->mapper = $autoMapper->getMapper(User::class, UserDTO::class);
     }
 
     public function getName()

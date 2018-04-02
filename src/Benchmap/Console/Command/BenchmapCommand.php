@@ -5,6 +5,7 @@ namespace Benchmap\Console\Command;
 use Benchmap\Result;
 use Benchmap\Runner;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -51,10 +52,9 @@ class BenchmapCommand extends Command
 			return array($result->getName(), $result->getDuration(), $result->getMemory());
 		}, $results);
 
-		/* @var \Symfony\Component\Console\Helper\TableHelper $table */
-		$table = $this->getHelper('table');
+		$table = new Table($output);
 		$table->setHeaders(array('package', 'duration (MS)', 'MEM (B)'));
 		$table->addRows($rows);
-		$table->render($output);
+		$table->render();
 	}
 }

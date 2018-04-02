@@ -11,14 +11,16 @@
 		}
 	],
 	"require": {
-		"symfony/console": "~2.3",
-		"symfony/finder": "~2.3",
-		"symfony/stopwatch": "~2.3",
+		"symfony/console": "^4.0",
+		"symfony/finder": "^4.0",
+		"symfony/stopwatch": "^4.0",
 		"idr0id/papper": "dev-master",
 		"bcc/auto-mapper-bundle": "dev-master",
 		"nylle/php-automapper": "dev-master",
-        "trismegiste/alkahest": "dev-master",
-        "mark-gerarts/auto-mapper-plus": "@dev"
+		"trismegiste/alkahest": "dev-master",
+		"jane-php/automapper": "dev-master",
+		"mark-gerarts/auto-mapper-plus": "@dev",
+		"phpdocumentor/reflection-docblock": "^4.3"
 	},
 	"autoload": {
 		"psr-0": {

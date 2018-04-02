@@ -6,8 +6,8 @@ use Benchmap\Domain\User;
 use Benchmap\Domain\UserDTO;
 use Benchmap\TaskInterface;
 use Jane\AutoMapper\AutoMapper;
-use Jane\AutoMapper\Compiler\Accessor;
-use Jane\AutoMapper\Compiler\Compiler;
+use Jane\AutoMapper\Compiler\Accessor\ReflectionAccessorExtractor;
+use Jane\AutoMapper\Compiler\SourceTargetPropertiesMappingExtractor;
 use Jane\AutoMapper\Compiler\Transformer\TransformerFactory;
 use Jane\AutoMapper\MapperConfiguration;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
@@ -16,18 +16,18 @@ use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 
 class JaneAutoMapperTask implements TaskInterface
 {
-    private $compiler;
+    private $mappingExtractor;
 
     private $autoMapper;
 
     public function __construct()
     {
-        $this->compiler = new Compiler(new PropertyInfoExtractor(
+        $this->mappingExtractor = new SourceTargetPropertiesMappingExtractor(new PropertyInfoExtractor(
             [new ReflectionExtractor()],
             [new ReflectionExtractor(), new PhpDocExtractor()],
             [new ReflectionExtractor()],
             [new ReflectionExtractor()]
-        ), new Accessor(), new TransformerFactory());
+        ), new ReflectionAccessorExtractor(), new TransformerFactory());
         $this->autoMapper = new AutoMapper();
     }
 
@@ -38,7 +38,7 @@ class JaneAutoMapperTask implements TaskInterface
 
     public function prepare()
     {
-        $configurationUser = new MapperConfiguration($this->compiler, User::class, UserDTO::class);
+        $configurationUser = new MapperConfiguration($this->mappingExtractor, User::class, UserDTO::class);
         $this->autoMapper->register($configurationUser);
     }
 

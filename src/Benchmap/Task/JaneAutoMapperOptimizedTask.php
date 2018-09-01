@@ -10,6 +10,7 @@ use Jane\AutoMapper\Compiler\Accessor;
 use Jane\AutoMapper\Compiler\Compiler;
 use Jane\AutoMapper\Compiler\SourceTargetPropertiesMappingExtractor;
 use Jane\AutoMapper\Compiler\Transformer\TransformerFactory;
+use Jane\AutoMapper\Context;
 use Jane\AutoMapper\MapperConfiguration;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
@@ -45,7 +46,7 @@ class JaneAutoMapperOptimizedTask implements TaskInterface
     public function run(array $sources)
     {
         foreach ($sources as $source) {
-            $this->mapper->map($source);
+            $this->mapper->map($source, new Context());
         }
     }
 

@@ -8,7 +8,11 @@ use Benchmap\TaskInterface;
 use Jane\AutoMapper\AutoMapper;
 use Jane\AutoMapper\Compiler\Accessor\ReflectionAccessorExtractor;
 use Jane\AutoMapper\Compiler\SourceTargetPropertiesMappingExtractor;
-use Jane\AutoMapper\Compiler\Transformer\TransformerFactory;
+use Jane\AutoMapper\Compiler\Transformer\ArrayTransformerFactory;
+use Jane\AutoMapper\Compiler\Transformer\BuiltinTransformerFactory;
+use Jane\AutoMapper\Compiler\Transformer\ChainTransformerFactory;
+use Jane\AutoMapper\Compiler\Transformer\MultipleTransformerFactory;
+use Jane\AutoMapper\Compiler\Transformer\ObjectTransformerFactory;
 use Jane\AutoMapper\MapperConfiguration;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
@@ -22,12 +26,22 @@ class JaneAutoMapperTask implements TaskInterface
 
     public function __construct()
     {
-        $this->mappingExtractor = new SourceTargetPropertiesMappingExtractor(new PropertyInfoExtractor(
-            [new ReflectionExtractor()],
-            [new ReflectionExtractor(), new PhpDocExtractor()],
-            [new ReflectionExtractor()],
-            [new ReflectionExtractor()]
-        ), new ReflectionAccessorExtractor(), new TransformerFactory());
+        $transformerFactory = new ChainTransformerFactory();
+        $transformerFactory->addTransformerFactory(new MultipleTransformerFactory($transformerFactory), 0);
+        $transformerFactory->addTransformerFactory(new BuiltinTransformerFactory(), 1);
+        $transformerFactory->addTransformerFactory(new ArrayTransformerFactory($transformerFactory), 2);
+        $transformerFactory->addTransformerFactory(new ObjectTransformerFactory(), 3);
+
+        $this->mappingExtractor = new SourceTargetPropertiesMappingExtractor(
+            new PropertyInfoExtractor(
+                [new ReflectionExtractor()],
+                [new ReflectionExtractor(), new PhpDocExtractor()],
+                [new ReflectionExtractor()],
+                [new ReflectionExtractor()]
+            ),
+            new ReflectionAccessorExtractor(),
+            $transformerFactory
+        );
         $this->autoMapper = new AutoMapper();
     }
 

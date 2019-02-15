@@ -42,8 +42,10 @@ class JaneAutoMapperTask implements TaskInterface
 
     public function run(array $sources)
     {
+        $context = new Context();
+
         foreach ($sources as $source) {
-            $this->mapper->map($source, new Context());
+            $this->mapper->map($source, $context);
         }
     }
 

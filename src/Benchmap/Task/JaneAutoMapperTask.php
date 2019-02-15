@@ -6,43 +6,29 @@ use Benchmap\Domain\User;
 use Benchmap\Domain\UserDTO;
 use Benchmap\TaskInterface;
 use Jane\AutoMapper\AutoMapper;
-use Jane\AutoMapper\Compiler\Accessor\ReflectionAccessorExtractor;
-use Jane\AutoMapper\Compiler\SourceTargetPropertiesMappingExtractor;
-use Jane\AutoMapper\Compiler\Transformer\ArrayTransformerFactory;
-use Jane\AutoMapper\Compiler\Transformer\BuiltinTransformerFactory;
-use Jane\AutoMapper\Compiler\Transformer\ChainTransformerFactory;
-use Jane\AutoMapper\Compiler\Transformer\MultipleTransformerFactory;
-use Jane\AutoMapper\Compiler\Transformer\ObjectTransformerFactory;
-use Jane\AutoMapper\MapperConfiguration;
-use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
-use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
-use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
+use Jane\AutoMapper\Compiler\Compiler;
+use Jane\AutoMapper\Compiler\FileLoader;
+use Jane\AutoMapper\Context;
 
 class JaneAutoMapperTask implements TaskInterface
 {
-    private $mappingExtractor;
+    private $mapper;
 
     private $autoMapper;
 
     public function __construct()
     {
-        $transformerFactory = new ChainTransformerFactory();
-        $transformerFactory->addTransformerFactory(new MultipleTransformerFactory($transformerFactory), 0);
-        $transformerFactory->addTransformerFactory(new BuiltinTransformerFactory(), 1);
-        $transformerFactory->addTransformerFactory(new ArrayTransformerFactory($transformerFactory), 2);
-        $transformerFactory->addTransformerFactory(new ObjectTransformerFactory(), 3);
+        $directory = __DIR__ . '/../../../cache/jane-automapper';
+        @unlink($directory);
+        @mkdir($directory, 0777, true);
 
-        $this->mappingExtractor = new SourceTargetPropertiesMappingExtractor(
-            new PropertyInfoExtractor(
-                [new ReflectionExtractor()],
-                [new ReflectionExtractor(), new PhpDocExtractor()],
-                [new ReflectionExtractor()],
-                [new ReflectionExtractor()]
-            ),
-            new ReflectionAccessorExtractor(),
-            $transformerFactory
+        $loader = new FileLoader(
+            new Compiler(),
+            $directory,
         );
-        $this->autoMapper = new AutoMapper();
+
+        $autoMapper = AutoMapper::create(true, $loader);
+        $this->mapper = $autoMapper->getMapper(User::class, UserDTO::class);
     }
 
     public function getName()
@@ -52,14 +38,12 @@ class JaneAutoMapperTask implements TaskInterface
 
     public function prepare()
     {
-        $configurationUser = new MapperConfiguration($this->mappingExtractor, User::class, UserDTO::class);
-        $this->autoMapper->register($configurationUser);
     }
 
     public function run(array $sources)
     {
         foreach ($sources as $source) {
-            $this->autoMapper->map($source, UserDTO::class);
+            $this->mapper->map($source, new Context());
         }
     }
 

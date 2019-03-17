@@ -24,7 +24,7 @@ class JaneAutoMapperTask implements TaskInterface
 
         $loader = new FileLoader(
             new Compiler(),
-            $directory,
+            $directory
         );
 
         $autoMapper = AutoMapper::create(true, $loader);
